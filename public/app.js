@@ -123,11 +123,14 @@ function displayReviews(data) {
         let thisReview = data.reviews[index];
         $('main').append(
             `
-            <div class="review" id=${thisReview.id}>
-                <div class="static-fields"></div>
+            <div class="review" id=${thisReview.id}>    
                 <div class="updateable-fields">
                     <h3>${thisReview.title}</h3>
+                </div>
+                <div class="static-fields">
                     <p>Review submitted on ${thisReview.date}</p>
+                </div>
+                <div class="updateable-fields">
                     <p>${thisReview.description}</p>
                     <button class="put">Update</button>
                     <button class="del">Delete</button>

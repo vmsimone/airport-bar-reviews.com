@@ -1,9 +1,9 @@
 function loadUpdateForm(selectedReview) {
     const reviewID = $(selectedReview).attr('id');
 
-    const classSelector = `#${reviewID} .updateable-fields`;
-    const oldTitle = $(`#${reviewID} .updateable-fields h3`).text();
-    const oldDescription = $(`#${reviewID} .updateable-fields p`).text();
+    const classSelector = `#${reviewID}`;
+    const oldTitle = $(`${classSelector} .updateable-fields h3`).text();
+    const oldDescription = $(`${classSelector} .updateable-fields p`).text();
 
     $(classSelector).html(`
         <form action="#" name="update-form" class="js-update">
