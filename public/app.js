@@ -83,39 +83,30 @@ function readyAddButton() {
 //activated after CREATE req
 function displayAirports(data) {
     for (index in data.airports) {
-        let thisAirport = data.reviews[index];
+        let thisAirport = data.airports[index];
         $('main').append(
             `
             <div class="review" id=${thisAirport.id}>
-                <div class="static-fields"></div>
-                <div class="updateable-fields">
-                    <h3>${thisAirport.title}</h3>
-                </div>
+                <h3><a href="#">${thisAirport.fullAirportName}</a></h3>
             </div>
             `
         );
     }
-    readyListButtons();
 }
 
 function displayBars(data) {
     for (index in data.bars) {
-        let thisBar = data.reviews[index];
+        let thisBar = data.bars[index];
         $('main').append(
             `
             <div class="review" id=${thisBar.id}>
-                <div class="static-fields"></div>
-                <div class="updateable-fields">
-                    <h3>${thisBar.title}</h3>
-                    <p>${thisBar.description}</p>
-                    <button class="put">Update</button>
-                    <button class="del">Delete</button>
-                </div>
+                <h3>${thisBar.name}</h3>
+                <h4>Located in ${thisBar.airport}</h4>
+                <p>${thisBar.location}</p>
             </div>
             `
         );
     }
-    readyListButtons();
 }
 
 function displayReviews(data) {
