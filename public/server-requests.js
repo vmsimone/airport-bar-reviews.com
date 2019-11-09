@@ -1,10 +1,10 @@
 //CREATE
-function addItem(item) {
+function addReview(review) {
     $.ajax({
-        url: '/api/items',
+        url: '/api/reviews',
         method: 'post',
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(item),
+        data: JSON.stringify(review),
         success: () => {
             $('.add-section').html(`
                 <button class="add">Add</button>
@@ -15,29 +15,29 @@ function addItem(item) {
 }
 
 //READ
-function getItems() {
+function getReviews() {
     $.ajax({
-        url: '/api/items',
+        url: '/api/reviews',
         method: 'get',
         success: displayData
     });
 }
 
 //UPDATE
-function updateItem(item) {
+function updateReview(review) {
     $.ajax({
-        url: `/api/items/${item.id}`,
+        url: `/api/reviews/${review.id}`,
         method: 'put',
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(item),
+        data: JSON.stringify(review),
         success: () => { loadListPage() }
     });
 }
 
 //DELETE
-function deleteItem(itemId) {
+function deleteReview(reviewId) {
     $.ajax({
-        url: `/api/items/${itemId}`,
+        url: `/api/reviews/${reviewId}`,
         method: 'delete',
         success: () => { loadListPage() }
     });

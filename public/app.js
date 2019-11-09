@@ -1,18 +1,44 @@
 function loadHomePage() {
     $('main').html(`
-        <h2>This is the home page.</h2>
-        <p>Click "List" to run a GET command and view a list of items in the database</p>
+        <h1>Welcome to Airport Bar Reviews .Com!</h1>
+        <p>Visit your local airport bar and click the buttons above to get started</p>
     `);
 }
 
-function loadListPage() {
+function loadAirportsPage() {
     $('main').html(`
-        <h2>Below are all of the items in the "items" collection</h2>
+        <h2>A list of airports with bars that have been reviewed</h2>
     `);
-    getItems();
+    getReviews();
     $('main').append(`
         <div class="add-section">
-            <button class="add">Add</button>
+            <button class="add">Add New</button>
+        </div>
+    `);
+    readyAddButton();
+}
+
+function loadBarsPage() {
+    $('main').html(`
+        <h2>A list of bars that have been reviewed</h2>
+    `);
+    getReviews();
+    $('main').append(`
+        <div class="add-section">
+            <button class="add">Add New</button>
+        </div>
+    `);
+    readyAddButton();
+}
+
+function loadReviewsPage() {
+    $('main').html(`
+        <h2>A list of every review added to this site</h2>
+    `);
+    getReviews();
+    $('main').append(`
+        <div class="add-section">
+            <button class="add">Add New</button>
         </div>
     `);
     readyAddButton();
@@ -22,22 +48,28 @@ function readyNavButtons() {
     $('#home').on('click', () => {
         loadHomePage();
     });
-    $('#list').on('click', () => {
-        loadListPage();
+    $('#airports').on('click', () => {
+        loadAirportsPage();
+    });
+    $('#bars').on('click', () => {
+        loadBarsPage();
+    });
+    $('#reviews').on('click', () => {
+        loadReviewsPage();
     });
 }
 
 function readyListButtons() {
     $('.put').on('click', (event) => {
-        let thisItem = $(event.currentTarget).parent().parent();
-        loadUpdateForm(thisItem);
+        let thisReview = $(event.currentTarget).parent().parent();
+        loadUpdateForm(thisReview);
     });
 
     $('.del').on('click', (event) => {
-        const thisItem = $(event.currentTarget).parent().parent();
-        const thisItemId = thisItem.attr('id');
+        const thisReview = $(event.currentTarget).parent().parent();
+        const thisReviewId = thisReview.attr('id');
         
-        deleteItem(thisItemId);
+        deleteReview(thisReviewId);
     });
 }
 
@@ -49,15 +81,15 @@ function readyAddButton() {
 
 //activated after CREATE req
 function displayData(data) {
-    for (index in data.items) {
-        let thisItem = data.items[index];
+    for (index in data.reviews) {
+        let thisReview = data.reviews[index];
         $('main').append(
             `
-            <div class="item" id=${thisItem.id}>
+            <div class="review" id=${thisReview.id}>
                 <div class="static-fields"></div>
                 <div class="updateable-fields">
-                    <h3>${thisItem.title}</h3>
-                    <p>${thisItem.description}</p>
+                    <h3>${thisReview.title}</h3>
+                    <p>${thisReview.description}</p>
                     <button class="put">Update</button>
                     <button class="del">Delete</button>
                 </div>

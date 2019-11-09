@@ -1,18 +1,18 @@
-function loadUpdateForm(selectedItem) {
-    const itemID = $(selectedItem).attr('id');
+function loadUpdateForm(selectedReview) {
+    const reviewID = $(selectedReview).attr('id');
 
-    const classSelector = `#${itemID} .updateable-fields`;
-    const oldTitle = $(`#${itemID} .updateable-fields h3`).text();
-    const oldDescription = $(`#${itemID} .updateable-fields p`).text();
+    const classSelector = `#${reviewID} .updateable-fields`;
+    const oldTitle = $(`#${reviewID} .updateable-fields h3`).text();
+    const oldDescription = $(`#${reviewID} .updateable-fields p`).text();
 
     $(classSelector).html(`
         <form action="#" name="update-form" class="js-update">
             <fieldset>
-                <label for="item-title">New Title:</label>
-                <input type="text" id="item-title" value="${oldTitle}" autoselect>
+                <label for="review-title">New Title:</label>
+                <input type="text" id="review-title" value="${oldTitle}" autoselect>
                 <br><br>
-                <label for="item-description">New Description:</label>
-                <input type="text" id="item-description" value="${oldDescription}">
+                <label for="review-description">New Description:</label>
+                <input type="text" id="review-description" value="${oldDescription}">
                 <br><br>
                 <button type="submit" class="save">Save</button>
             </fieldset>
@@ -20,18 +20,36 @@ function loadUpdateForm(selectedItem) {
         <br>
         <button class="cancel">Cancel</button>
     `);
-    readyFormButtons(itemID);
+    readyFormButtons(reviewID);
+}
+
+function readyFormButtons(reviewID) {
+    $('.js-update').submit(event => {
+        //update the review on the database and reload page
+        event.preventDefault();
+        
+        let putObject = {
+            "id": `${reviewID}`,
+            "title": `${getValById(`#${reviewID}`, '#review-title')}`,
+            "description": `${getValById(event.currentTarget, '#review-description')}`
+        };
+        updateReview(putObject);
+    });
+
+    $('.cancel').on('click', () => {
+        loadListPage();
+    });
 }
 
 function loadAddForm() {
     $('.add-section').html(`
         <form action="#" name="add-form" class="js-add">
             <fieldset>
-                <label for="add-item-title">Title:</label>
-                <input type="text" id="add-item-title" placeholder="Sample Title" required autoselect>
+                <label for="add-review-title">Title:</label>
+                <input type="text" id="add-review-title" placeholder="Your review Title" required autoselect>
                 <br><br>
-                <label for="add-item-description">Description:</label>
-                <input type="text" id="add-item-description" placeholder="Sample description" required>
+                <label for="add-review-description">Description:</label>
+                <input type="text" id="add-review-description" placeholder="Your review here" required>
                 <br><br>
                 <button type="submit" class="save">Save</button>
             </fieldset>
@@ -42,41 +60,23 @@ function loadAddForm() {
     readyAddFormButtons();
 }
 
-function readyFormButtons(itemID) {
-    $('.js-update').submit(event => {
-        //update the item on the database and reload page
-        event.preventDefault();
-        
-        let putObject = {
-            "id": `${itemID}`,
-            "title": `${getValById(`#${itemID}`, '#item-title')}`,
-            "description": `${getValById(event.currentTarget, '#item-description')}`
-        };
-        updateItem(putObject);
-    });
-
-    $('.cancel').on('click', () => {
-        loadListPage();
-    });
-}
-
 function readyAddFormButtons() {
     $('.js-add').submit(event => {
-        //add a new item to the database and reload page
+        //add a new review to the database and reload page
         event.preventDefault();
-        const title = $(event.currentTarget).find('#add-item-title').val();
-        const desc = $(event.currentTarget).find('#add-item-description').val();
+        const title = $(event.currentTarget).find('#add-review-title').val();
+        const desc = $(event.currentTarget).find('#add-review-description').val();
 
         let addObject = {
             "title": `${title}`,
             "description": `${desc}`
         };
-        addItem(addObject);
+        addReview(addObject);
     });
 
     $('.cancel').on('click', () => {
         $('.add-section').html(`
-            <button class="add">Add</button>
+            <button class="add">Add New</button>
         `);
         readyAddButton();
       });
