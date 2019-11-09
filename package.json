@@ -1,5 +1,5 @@
 {
-  "name": "server-starter-kit",
+  "name": "airport-bar-reviews.com",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vmsimone/server-starter-kit.git"
+    "url": "https://github.com/vmsimone/airport-bar-reviews.com.git"
   },
   "author": "vsimone",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vmsimone/server-starter-kit/issues"
+    "url": "https://github.com/vmsimone/airport-bar-reviews/issues"
   },
-  "homepage": "https://github.com/vmsimone/server-starter-kit#readme",
+  "homepage": "https://github.com/vmsimone/airport-bar-reviews#readme",
   "dependencies": {
     "express": "^4.17.1",
     "mongo": "^0.1.0",

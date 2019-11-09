@@ -1,7 +1,10 @@
 //CREATE
-function addReview(review) {
+function addToCollection(collection, review) {
+    console.log(collection);
+    console.log(review);
+    
     $.ajax({
-        url: '/api/reviews',
+        url: `/api/${collection}`,
         method: 'post',
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(review),
@@ -9,10 +12,35 @@ function addReview(review) {
             $('.add-section').html(`
                 <button class="add">Add</button>
             `);
-            loadListPage();
+            switch(collection) {
+                case 'airports':
+                    loadAirportsPage();
+                    break;
+                case 'bars':
+                    loadBarsPage();
+                    break;
+                case 'reviews':
+                    break;
+                default: loadHomePage();
+            }
         }
     }); 
 }
+
+// function addAirport(airport) {
+//     $.ajax({
+//         url: '/api/airports',
+//         method: 'post',
+//         contentType: "application/json; charset=utf-8",
+//         data: JSON.stringify(airport),
+//         success: () => {
+//             $('.add-section').html(`
+//                 <button class="add">Add New</button>
+//             `);
+//             loadAirportsPage();
+//         }
+//     }); 
+// }
 
 //READ
 function getReviews() {
@@ -30,7 +58,7 @@ function updateReview(review) {
         method: 'put',
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(review),
-        success: () => { loadListPage() }
+        success: () => { loadReviewsPage() }
     });
 }
 
@@ -39,6 +67,6 @@ function deleteReview(reviewId) {
     $.ajax({
         url: `/api/reviews/${reviewId}`,
         method: 'delete',
-        success: () => { loadListPage() }
+        success: () => { loadReviewsPage() }
     });
 }

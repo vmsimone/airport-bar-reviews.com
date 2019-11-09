@@ -37,7 +37,7 @@ function readyFormButtons(reviewID) {
     });
 
     $('.cancel').on('click', () => {
-        loadListPage();
+        loadReviewsPage();
     });
 }
 
@@ -45,6 +45,12 @@ function loadAddForm() {
     $('.add-section').html(`
         <form action="#" name="add-form" class="js-add">
             <fieldset>
+                <label for="add-review-airport">Which Airport?</label>
+                <input type="text" id="add-review-airport" placeholder="Airport Name" required autoselect>
+                <br><br>
+                <label for="add-review-bar">Which Bar?</label>
+                <input type="text" id="add-review-bar" placeholder="Bar Name" required autoselect>
+                <br><br>
                 <label for="add-review-title">Title:</label>
                 <input type="text" id="add-review-title" placeholder="Your review Title" required autoselect>
                 <br><br>
@@ -64,14 +70,22 @@ function readyAddFormButtons() {
     $('.js-add').submit(event => {
         //add a new review to the database and reload page
         event.preventDefault();
+        const airport = $(event.currentTarget).find('#add-review-airport').val();
+        const bar = $(event.currentTarget).find('#add-review-bar').val();
         const title = $(event.currentTarget).find('#add-review-title').val();
         const desc = $(event.currentTarget).find('#add-review-description').val();
+        const currentDate = new Date();
 
         let addObject = {
+            "airport": `${airport}`,
+            "bar": `${bar}`,
             "title": `${title}`,
-            "description": `${desc}`
+            "description": `${desc}`,
+            "date": `${currentDate}`
         };
-        addReview(addObject);
+
+        console.log(addObject);
+        addToCollection('reviews', addObject);
     });
 
     $('.cancel').on('click', () => {

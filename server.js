@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
-const { Item } = require('./models');
+const { Airport, Bar, Review } = require('./models');
 
 const app = express();
 app.use(express.json());
@@ -16,13 +16,13 @@ app.get('/', (_req,res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/api/items', (_req, res) => {
-  Item
+app.get('/api/reviews', (_req, res) => {
+  Review
     .find()
-    .then(item => {
+    .then(review => {
       res.json({
-        items: item.map(
-          (item) => item.serialize())
+        reviews: review.map(
+          (review) => review.serialize())
       });
     })
     .catch(err => {
@@ -31,9 +31,9 @@ app.get('/api/items', (_req, res) => {
     });
 });
 
-app.post('/api/items', (req, res) => {
+app.post('/api/reviews', (req, res) => {
     //include any additional keys you're expecting
-    const requiredKeys = ['title', 'description'];
+    const requiredKeys = ['airport', 'bar', 'title', 'description', 'date'];
     for (let i = 0; i < requiredKeys.length; i++) {
         const key = requiredKeys[i];
         if (!(key in req.body)) {
@@ -43,18 +43,21 @@ app.post('/api/items', (req, res) => {
         }
     }
 
-  Item.create({
+  Review.create({
+    airport: req.body.airport,
+    bar: req.body.bar,
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
+    date: req.body.date
   })
-  .then(Item => res.status(201).json(Item.serialize()))
+  .then(Review => res.status(201).json(Review.serialize()))
   .catch(err => {
     console.log(err);
     res.status(500).json({ error: 'Internal server error' });
   });
 });
 
-app.put('/api/items/:id', (req, res) => {
+app.put('/api/reviews/:id', (req, res) => {
   if(!(req.body.id)) {
     res.status(400).json({
       error: 'Request body does not contain id'
@@ -77,7 +80,7 @@ app.put('/api/items/:id', (req, res) => {
     }
   });
 
-  Item
+  Review
     .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(() => res.status(204).end())
     .catch(err => {
@@ -86,8 +89,8 @@ app.put('/api/items/:id', (req, res) => {
     });
 });
 
-app.delete('/api/items/:id', (req, res) => {
-  Item
+app.delete('/api/reviews/:id', (req, res) => {
+  Review
     .findByIdAndRemove(req.params.id)
     .then(() => {
       res.status(204).json({ message: `${req.params.id} removed` });
