@@ -9,7 +9,7 @@ function loadAirportsPage() {
     $('main').html(`
         <h2>A list of airports with bars that have been reviewed</h2>
     `);
-    getReviews();
+    readCollection('airports');
     $('main').append(`
         <div class="add-section">
             <button class="add">Add New</button>
@@ -22,7 +22,7 @@ function loadBarsPage() {
     $('main').html(`
         <h2>A list of bars that have been reviewed</h2>
     `);
-    getReviews();
+    readCollection('bars');
     $('main').append(`
         <div class="add-section">
             <button class="add">Add New</button>
@@ -35,7 +35,8 @@ function loadReviewsPage() {
     $('main').html(`
         <h2>A list of every review added to this site</h2>
     `);
-    getReviews();
+    console.log('reviews ready')
+    readCollection('reviews');
     $('main').append(`
         <div class="add-section">
             <button class="add">Add New</button>
@@ -80,7 +81,44 @@ function readyAddButton() {
 }
 
 //activated after CREATE req
-function displayData(data) {
+function displayAirports(data) {
+    for (index in data.airports) {
+        let thisAirport = data.reviews[index];
+        $('main').append(
+            `
+            <div class="review" id=${thisAirport.id}>
+                <div class="static-fields"></div>
+                <div class="updateable-fields">
+                    <h3>${thisAirport.title}</h3>
+                </div>
+            </div>
+            `
+        );
+    }
+    readyListButtons();
+}
+
+function displayBars(data) {
+    for (index in data.bars) {
+        let thisBar = data.reviews[index];
+        $('main').append(
+            `
+            <div class="review" id=${thisBar.id}>
+                <div class="static-fields"></div>
+                <div class="updateable-fields">
+                    <h3>${thisBar.title}</h3>
+                    <p>${thisBar.description}</p>
+                    <button class="put">Update</button>
+                    <button class="del">Delete</button>
+                </div>
+            </div>
+            `
+        );
+    }
+    readyListButtons();
+}
+
+function displayReviews(data) {
     for (index in data.reviews) {
         let thisReview = data.reviews[index];
         $('main').append(
@@ -89,6 +127,7 @@ function displayData(data) {
                 <div class="static-fields"></div>
                 <div class="updateable-fields">
                     <h3>${thisReview.title}</h3>
+                    <p>Review submitted on ${thisReview.date}</p>
                     <p>${thisReview.description}</p>
                     <button class="put">Update</button>
                     <button class="del">Delete</button>

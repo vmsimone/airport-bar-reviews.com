@@ -1,8 +1,5 @@
 //CREATE
 function addToCollection(collection, review) {
-    console.log(collection);
-    console.log(review);
-    
     $.ajax({
         url: `/api/${collection}`,
         method: 'post',
@@ -20,6 +17,7 @@ function addToCollection(collection, review) {
                     loadBarsPage();
                     break;
                 case 'reviews':
+                    loadReviewsPage()
                     break;
                 default: loadHomePage();
             }
@@ -27,27 +25,26 @@ function addToCollection(collection, review) {
     }); 
 }
 
-// function addAirport(airport) {
-//     $.ajax({
-//         url: '/api/airports',
-//         method: 'post',
-//         contentType: "application/json; charset=utf-8",
-//         data: JSON.stringify(airport),
-//         success: () => {
-//             $('.add-section').html(`
-//                 <button class="add">Add New</button>
-//             `);
-//             loadAirportsPage();
-//         }
-//     }); 
-// }
-
 //READ
-function getReviews() {
+function readCollection(collection) {
     $.ajax({
-        url: '/api/reviews',
+        url: `/api/${collection}`,
         method: 'get',
-        success: displayData
+        success: (data) => {
+            switch(collection) {
+                case 'airports':
+                    displayAirports;
+                    break;
+                case 'bars':
+                    displayBars;
+                    break;
+                case 'reviews':
+                    console.log('reviews triggered')
+                    displayReviews(data);
+                    break;
+                default: loadHomePage();
+            }
+        }
     });
 }
 

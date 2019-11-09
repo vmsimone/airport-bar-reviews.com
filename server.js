@@ -16,6 +16,36 @@ app.get('/', (_req,res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/api/airports', (_req, res) => {
+  Airport
+    .find()
+    .then(review => {
+      res.json({
+        reviews: review.map(
+          (review) => review.serialize())
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    });
+});
+
+app.get('/api/bars', (_req, res) => {
+  Bar
+    .find()
+    .then(review => {
+      res.json({
+        reviews: review.map(
+          (review) => review.serialize())
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    });
+});
+
 app.get('/api/reviews', (_req, res) => {
   Review
     .find()
