@@ -3,7 +3,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useNewUrlParser', true);
+
 mongoose.Promise = global.Promise;
+
 
 const { PORT, DATABASE_URL } = require('./config');
 const { Airport, Bar, Review } = require('./models');
