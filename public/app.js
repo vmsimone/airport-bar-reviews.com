@@ -5,6 +5,21 @@ function loadHomePage() {
     `);
 }
 
+function readyNavButtons() {
+    $('#home').on('click', () => {
+        loadHomePage();
+    });
+    $('#airports').on('click', () => {
+        loadAirportsPage();
+    });
+    $('#bars').on('click', () => {
+        loadBarsPage();
+    });
+    $('#reviews').on('click', () => {
+        loadReviewsPage();
+    });
+}
+
 function loadAirportsPage() {
     $('main').html(`
         <h2>A list of airports with bars that have been reviewed</h2>
@@ -46,29 +61,14 @@ function loadReviewsPage() {
 
 function readyAddButton() {
     $('.add').on('click', () => {
-        loadAddForm();
-    });
-}
-
-function readyNavButtons() {
-    $('#home').on('click', () => {
-        loadHomePage();
-    });
-    $('#airports').on('click', () => {
-        loadAirportsPage();
-    });
-    $('#bars').on('click', () => {
-        loadBarsPage();
-    });
-    $('#reviews').on('click', () => {
-        loadReviewsPage();
+        reviewAddForm();
     });
 }
 
 function readyListButtons() {
     $('.put').on('click', (event) => {
         let thisReview = $(event.currentTarget).parent().parent();
-        loadUpdateForm(thisReview);
+        reviewUpdateForm(thisReview);
     });
 
     $('.del').on('click', (event) => {
@@ -111,6 +111,7 @@ function displayBars(data) {
 function displayReviews(data) {
     for (index in data.reviews) {
         let thisReview = data.reviews[index];
+        console.log(thisReview);
         $('main').append(
             `
             <div class="review" id=${thisReview.id}>    
@@ -118,7 +119,7 @@ function displayReviews(data) {
                     <h3>${thisReview.title}</h3>
                 </div>
                 <div class="static-fields">
-                    <p>Review submitted on ${thisReview.date}</p>
+                    <p>Review submitted on ${thisReview.date} by ${thisReview.author || 'Anonymous'}</p>
                 </div>
                 <div class="updateable-fields">
                     <p>${thisReview.description}</p>

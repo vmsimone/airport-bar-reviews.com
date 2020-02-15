@@ -6,6 +6,7 @@ function addToCollection(collection, review) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(review),
         success: () => {
+            console.log('success!');
             $('.add-section').html(`
                 <button class="add">Add</button>
             `);
@@ -31,6 +32,7 @@ function readCollection(collection) {
         url: `/api/${collection}`,
         method: 'get',
         success: (data) => {
+            console.log('read success!')
             switch(collection) {
                 case 'airports':
                     displayAirports;
@@ -39,7 +41,6 @@ function readCollection(collection) {
                     displayBars;
                     break;
                 case 'reviews':
-                    console.log('reviews triggered')
                     displayReviews(data);
                     break;
                 default: loadHomePage();

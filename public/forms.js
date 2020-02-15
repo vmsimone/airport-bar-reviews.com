@@ -1,4 +1,4 @@
-function loadUpdateForm(selectedReview) {
+function reviewUpdateForm(selectedReview) {
     const reviewID = $(selectedReview).attr('id');
 
     const classSelector = `#${reviewID}`;
@@ -41,7 +41,7 @@ function readyFormButtons(reviewID) {
     });
 }
 
-function loadAddForm() {
+function reviewAddForm() {
     $('.add-section').html(`
         <form action="#" name="add-form" class="js-add">
             <fieldset>
@@ -51,7 +51,10 @@ function loadAddForm() {
                 <label for="add-review-bar">Which Bar?</label>
                 <input type="text" id="add-review-bar" placeholder="Bar Name" required autoselect>
                 <br><br>
-                <label for="add-review-title">Title:</label>
+                <label for="add-review-author">Who are you?</label>
+                <input type="text" id="add-review-author" placeholder="Anonymous" required>
+                <br><br>
+                <label for="add-review-title">Review Title:</label>
                 <input type="text" id="add-review-title" placeholder="Your review Title" required autoselect>
                 <br><br>
                 <label for="add-review-description">Description:</label>
@@ -72,20 +75,35 @@ function readyAddFormButtons() {
         event.preventDefault();
         const airport = $(event.currentTarget).find('#add-review-airport').val();
         const bar = $(event.currentTarget).find('#add-review-bar').val();
+        const author = $(event.currentTarget).find('#add-review-author').val();
         const title = $(event.currentTarget).find('#add-review-title').val();
         const desc = $(event.currentTarget).find('#add-review-description').val();
         const currentDate = new Date();
 
-        let addObject = {
+        const airportObject = {
+            "airport": airport
+        }
+
+        console.log(airportObject);
+
+        const barObject = {
+            "airport": airport,
+            "name": bar,
+            "location": "(Location not yet added)"
+        }
+
+        const reviewObject = {
             "airport": `${airport}`,
             "bar": `${bar}`,
+            "author": `${author}`,
             "title": `${title}`,
             "description": `${desc}`,
             "date": `${currentDate}`
         };
 
-        console.log(addObject);
-        addToCollection('reviews', addObject);
+        console.log(reviewObject);
+
+        addToCollection('reviews', reviewObject);
     });
 
     $('.cancel').on('click', () => {

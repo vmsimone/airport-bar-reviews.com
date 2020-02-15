@@ -4,18 +4,18 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const airportSchema = mongoose.Schema({
-  "name": { type: String, required: true },
-  "code": { type: String, required: true }
+  "airport": { type: String, required: true }
+  // "code": { type: String, required: true }
 });
 
-airportSchema.virtual('fullAirportName').get(function() {
-  return `${this.code} - ${this.name}`;
-});
+// airportSchema.virtual('fullAirportName').get(function() {
+//   return `${this.code} - ${this.name}`;
+// });
 
 airportSchema.methods.serialize = function() {
   return {
     id: this._id,
-    airportName: this.fullAirportName
+    airport: this.airport
   };
 };
 
@@ -37,6 +37,7 @@ barSchema.methods.serialize = function() {
 const reviewSchema = mongoose.Schema({
   "airport": { type: String, required: true },
   "bar": { type: String, required: true },
+  "author": { type: String, required: true },
   "title": { type: String, required: true },
   "description": { type: String, required: true },
   "date": { type: String, required: true}
@@ -47,6 +48,7 @@ reviewSchema.methods.serialize = function() {
       id: this._id,
       airport: this.airport,
       bar: this.bar,
+      author: this.author,
       title: this.title,
       description: this.description,
       date: this.date

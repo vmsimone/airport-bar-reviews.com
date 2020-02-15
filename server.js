@@ -68,7 +68,8 @@ app.get('/api/reviews', (_req, res) => {
 
 app.post('/api/reviews', (req, res) => {
     //include any additional keys you're expecting
-    const requiredKeys = ['airport', 'bar', 'title', 'description', 'date'];
+    console.log(req.body);
+    const requiredKeys = ['airport', 'bar', 'author', 'title', 'description', 'date'];
     for (let i = 0; i < requiredKeys.length; i++) {
         const key = requiredKeys[i];
         if (!(key in req.body)) {
@@ -77,10 +78,11 @@ app.post('/api/reviews', (req, res) => {
             return res.status(400).send(message);
         }
     }
-
+    
   Review.create({
     airport: req.body.airport,
     bar: req.body.bar,
+    author: req.body.author,
     title: req.body.title,
     description: req.body.description,
     date: req.body.date
