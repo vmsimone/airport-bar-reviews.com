@@ -84,8 +84,6 @@ function readyAddFormButtons() {
             "airport": airport
         }
 
-        console.log(airportObject);
-
         const barObject = {
             "airport": airport,
             "name": bar,
@@ -93,16 +91,16 @@ function readyAddFormButtons() {
         }
 
         const reviewObject = {
-            "airport": `${airport}`,
-            "bar": `${bar}`,
-            "author": `${author}`,
-            "title": `${title}`,
-            "description": `${desc}`,
+            "airport": airport,
+            "bar": bar,
+            "author": author,
+            "title": title,
+            "description": desc,
             "date": `${currentDate}`
         };
-
-        console.log(reviewObject);
-
+        
+        addToCollection('airports', airportObject);
+        addToCollection('bars', barObject);
         addToCollection('reviews', reviewObject);
     });
 

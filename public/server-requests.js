@@ -1,26 +1,13 @@
 //CREATE
-function addToCollection(collection, review) {
+function addToCollection(collection, obj) {
     $.ajax({
         url: `/api/${collection}`,
         method: 'post',
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(review),
+        data: JSON.stringify(obj),
         success: () => {
-            console.log('success!');
-            $('.add-section').html(`
-                <button class="add">Add</button>
-            `);
-            switch(collection) {
-                case 'airports':
-                    loadAirportsPage();
-                    break;
-                case 'bars':
-                    loadBarsPage();
-                    break;
-                case 'reviews':
-                    loadReviewsPage()
-                    break;
-                default: loadHomePage();
+            if(collection === 'reviews') {
+                loadReviewsPage();
             }
         }
     }); 
@@ -32,13 +19,12 @@ function readCollection(collection) {
         url: `/api/${collection}`,
         method: 'get',
         success: (data) => {
-            console.log('read success!')
             switch(collection) {
                 case 'airports':
-                    displayAirports;
+                    displayAirports(data);
                     break;
                 case 'bars':
-                    displayBars;
+                    displayBars(data);
                     break;
                 case 'reviews':
                     displayReviews(data);

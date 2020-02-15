@@ -17,6 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
+// GET
 app.get('/', (_req,res) => { 
   res.sendFile(__dirname + '/public/index.html');
 });
@@ -24,10 +25,10 @@ app.get('/', (_req,res) => {
 app.get('/api/airports', (_req, res) => {
   Airport
     .find()
-    .then(review => {
+    .then(airport => {
       res.json({
-        reviews: review.map(
-          (review) => review.serialize())
+        airports: airport.map(
+          (airport) => airport.serialize())
       });
     })
     .catch(err => {
@@ -39,10 +40,10 @@ app.get('/api/airports', (_req, res) => {
 app.get('/api/bars', (_req, res) => {
   Bar
     .find()
-    .then(review => {
+    .then(bar => {
       res.json({
-        reviews: review.map(
-          (review) => review.serialize())
+        bars: bar.map(
+          (bar) => bar.serialize())
       });
     })
     .catch(err => {
@@ -66,6 +67,53 @@ app.get('/api/reviews', (_req, res) => {
     });
 });
 
+// POST
+app.post('/api/airports', (req, res) => {
+  //include any additional keys you're expecting
+  const requiredKeys = ['airport'];
+  for (let i = 0; i < requiredKeys.length; i++) {
+      const key = requiredKeys[i];
+      if (!(key in req.body)) {
+          const message = `Missing \`${key}\` in request body`;
+          console.error(message);
+          return res.status(400).send(message);
+      }
+  }
+
+  Airport.create({
+    airport: req.body.airport
+  })
+  .then(Review => res.status(201).json(Review.serialize()))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
+app.post('/api/bars', (req, res) => {
+  //include any additional keys you're expecting
+  const requiredKeys = ['airport', 'name', 'location'];
+  for (let i = 0; i < requiredKeys.length; i++) {
+      const key = requiredKeys[i];
+      if (!(key in req.body)) {
+          const message = `Missing \`${key}\` in request body`;
+          console.error(message);
+          return res.status(400).send(message);
+      }
+  }
+
+  Bar.create({
+    airport: req.body.airport,
+    name: req.body.name,
+    location: req.body.location
+  })
+  .then(Review => res.status(201).json(Review.serialize()))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ error: 'Internal server error' });
+  });
+});
+
 app.post('/api/reviews', (req, res) => {
     //include any additional keys you're expecting
     console.log(req.body);
@@ -78,20 +126,20 @@ app.post('/api/reviews', (req, res) => {
             return res.status(400).send(message);
         }
     }
-    
-  Review.create({
-    airport: req.body.airport,
-    bar: req.body.bar,
-    author: req.body.author,
-    title: req.body.title,
-    description: req.body.description,
-    date: req.body.date
-  })
-  .then(Review => res.status(201).json(Review.serialize()))
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({ error: 'Internal server error' });
-  });
+
+    Review.create({
+      airport: req.body.airport,
+      bar: req.body.bar,
+      author: req.body.author,
+      title: req.body.title,
+      description: req.body.description,
+      date: req.body.date
+    })
+    .then(Review => res.status(201).json(Review.serialize()))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: 'Internal server error' });
+    });
 });
 
 app.put('/api/reviews/:id', (req, res) => {

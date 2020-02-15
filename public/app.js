@@ -81,12 +81,13 @@ function readyListButtons() {
 
 //activated after CREATE req
 function displayAirports(data) {
+    console.log(data);
     for (index in data.airports) {
         let thisAirport = data.airports[index];
         $('main').append(
             `
             <div class="review" id=${thisAirport.id}>
-                <h3><a href="#">${thisAirport.fullAirportName}</a></h3>
+                <h3><a href="#">${thisAirport.airport}</a></h3>
             </div>
             `
         );
@@ -94,6 +95,7 @@ function displayAirports(data) {
 }
 
 function displayBars(data) {
+    console.log(data);
     for (index in data.bars) {
         let thisBar = data.bars[index];
         $('main').append(
