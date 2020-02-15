@@ -35,7 +35,6 @@ function loadReviewsPage() {
     $('main').html(`
         <h2>A list of every review added to this site</h2>
     `);
-    console.log('reviews ready')
     readCollection('reviews');
     $('main').append(`
         <div class="add-section">
@@ -43,6 +42,12 @@ function loadReviewsPage() {
         </div>
     `);
     readyAddButton();
+}
+
+function readyAddButton() {
+    $('.add').on('click', () => {
+        loadAddForm();
+    });
 }
 
 function readyNavButtons() {
@@ -71,12 +76,6 @@ function readyListButtons() {
         const thisReviewId = thisReview.attr('id');
         
         deleteReview(thisReviewId);
-    });
-}
-
-function readyAddButton() {
-    $('.add').on('click', () => {
-        loadAddForm();
     });
 }
 
