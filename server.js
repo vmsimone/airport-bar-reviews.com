@@ -3,7 +3,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-mongoose.set('useUnifiedTopology', true);
+// currently causes issues
+// mongoose.set('useUnifiedTopology', true);
 mongoose.set('useNewUrlParser', true);
 
 mongoose.Promise = global.Promise;
